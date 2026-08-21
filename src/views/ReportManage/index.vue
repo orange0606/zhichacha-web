@@ -71,7 +71,7 @@
                     </div>
                     <div class="info-item">
                       <span class="info-label">订单号</span>
-                      <span class="info-value order-no" @click="goJdOrder">{{ item.order_no || '-' }}</span>
+                      <span class="info-value order-no" @click="goJdOrder(item.order_no)">{{ item.order_no || '-' }}</span>
                     </div>
                     <div class="info-item full-width">
                       <span class="info-label">收货信息</span>
@@ -183,7 +183,7 @@
                     </div>
                     <div class="info-item">
                       <span class="info-label">订单号</span>
-                      <span class="info-value order-no" @click="goJdOrder">{{ item.order_no || '-' }}</span>
+                      <span class="info-value order-no" @click="goJdOrder(item.order_no)">{{ item.order_no || '-' }}</span>
                     </div>
                     <div class="info-item">
                       <span class="info-label">收货人</span>
@@ -255,7 +255,7 @@
         <el-descriptions-item label="纠纷类型">{{ currentDetail.dispute_type_text }}</el-descriptions-item>
         <el-descriptions-item label="平台账号">{{ currentDetail.buyer_account }}</el-descriptions-item>
         <el-descriptions-item label="订单号">
-          <span class="order-no" @click="goJdOrder">{{ currentDetail.order_no || '-' }}</span>
+          <span class="order-no" @click="goJdOrder(currentDetail.order_no)">{{ currentDetail.order_no || '-' }}</span>
         </el-descriptions-item>
         <el-descriptions-item label="收货名称">{{ currentDetail.receiver_name || '-' }}</el-descriptions-item>
         <el-descriptions-item label="收货手机">{{ currentDetail.receiver_phone || '-' }}</el-descriptions-item>
@@ -510,9 +510,11 @@ export default {
       this.loadMyData()
     },
 
-    // ====== 跳转京东订单 ======
-    goJdOrder() {
-      window.open(APP_CONFIG.JD_ORDER_LIST_URL, '_blank')
+    // ====== 跳转京东订单详情 ======
+    goJdOrder(orderNo) {
+      if (orderNo) {
+        window.open(APP_CONFIG.JD_ORDER_DETAIL_URL + orderNo, '_blank')
+      }
     },
 
     // ====== 共用方法 ======

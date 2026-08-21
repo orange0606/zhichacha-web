@@ -19,6 +19,11 @@ const routes = [
     component: () => import('../views/Register.vue')
   },
   {
+    path: '/extension/download',
+    name: 'ExtensionDownload',
+    component: () => import('../views/ExtensionDownload.vue')
+  },
+  {
     path: '/',
     component: () => import('../layout/MainLayout.vue'),
     children: [
@@ -51,6 +56,11 @@ const routes = [
         path: 'reportManage',
         name: 'ReportManage',
         component: () => import('../views/ReportManage/index.vue')
+      },
+      {
+        path: 'extension/manage',
+        name: 'ExtensionManage',
+        component: () => import('../views/ExtensionManage.vue')
       }
     ]
   }
@@ -64,7 +74,7 @@ const router = new VueRouter({
 // 路由守卫
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
-  if (to.path !== '/login' && to.path !== '/register') {
+  if (to.path !== '/login' && to.path !== '/register' && to.path !== '/extension/download') {
     if (!token) {
       return next('/login')
     }

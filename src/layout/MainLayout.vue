@@ -37,6 +37,10 @@
           <i class="el-icon-s-order"></i>
           <span slot="title">举报管理</span>
         </el-menu-item>
+        <el-menu-item index="/extension/manage">
+          <i class="el-icon-upload2"></i>
+          <span slot="title">插件管理</span>
+        </el-menu-item>
       </el-menu>
     </el-aside>
 
@@ -48,6 +52,9 @@
           <span class="page-title">{{ pageTitle }}</span>
         </div>
         <div class="header-right">
+          <el-button size="mini" type="text" icon="el-icon-download" class="download-btn" @click="goDownload">
+            下载插件
+          </el-button>
           <el-dropdown @command="handleCommand">
             <span class="user-info">
               <i class="el-icon-user-solid"></i>
@@ -162,7 +169,8 @@ export default {
         '/order': '订单查询',
         '/villainsSearch': '搜索恶人',
         '/riskSearch': '风险检测',
-        '/reportManage': '举报管理'
+        '/reportManage': '举报管理',
+        '/extension/manage': '插件管理'
       }
       return titleMap[this.$route.path] || '智查查'
     }
@@ -171,6 +179,9 @@ export default {
     this.username = localStorage.getItem('username') || '用户'
   },
   methods: {
+    goDownload() {
+      this.$router.push('/extension/download')
+    },
     handleCommand(command) {
       if (command === 'logout') {
         this.$confirm('确定要退出登录吗？', '提示', {
@@ -288,6 +299,17 @@ export default {
     font-size: 18px;
     font-weight: 600;
     color: #303133;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .download-btn {
+      color: #409eff;
+      font-size: 13px;
+    }
   }
 
   .user-info {

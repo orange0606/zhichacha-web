@@ -39,7 +39,7 @@
       </el-table-column>
       <el-table-column prop="order_no" label="订单号" width="125">
         <template slot-scope="scope">
-          <span class="order-no link-text" @click="goJdOrder">{{ scope.row.order_no }}</span>
+          <span class="order-no link-text" @click="goJdOrder(scope.row.order_no)">{{ scope.row.order_no }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="shop_name" label="店铺名称" width="110">
@@ -135,8 +135,10 @@ export default {
     }
   },
   methods: {
-    goJdOrder() {
-      window.open(APP_CONFIG.JD_ORDER_LIST_URL, '_blank')
+    goJdOrder(orderNo) {
+      if (orderNo) {
+        window.open(APP_CONFIG.JD_ORDER_DETAIL_URL + orderNo, '_blank')
+      }
     },
     onPageChange(page) {
       this.$emit('page-change', page)

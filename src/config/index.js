@@ -6,7 +6,9 @@ const APP_CONFIG = {
   // 京东商家后台订单列表页
   JD_ORDER_LIST_URL: 'https://shop.jd.com/jdm/trade/orders/order-list?tabType=allOrders',
   // 京东订单详情页（拼接orderId）
-  JD_ORDER_DETAIL_URL: 'https://shop.jd.com/jdm/trade/orders/order-detail?orderId=',
+  JD_ORDER_DETAIL_URL: 'https://shop.jd.com/jdm/trade/orders/order-details?orderId=',
+  // 京巴士物流同步页
+  JBS_EXPRESS_URL: 'https://pay.jingbashi.com/back.php/order/status?ref=addtabs',
 }
 
 export default APP_CONFIG

@@ -121,6 +121,7 @@
                   stripe
                   class="inner-table"
                 >
+                  <el-table-column type="index" label="#" width="45" align="center" />
                   <el-table-column label="下单时间" width="140">
                     <template slot-scope="scope">
                       {{ formatFullTime(scope.row.order_time) }}
@@ -128,7 +129,7 @@
                   </el-table-column>
                   <el-table-column prop="order_no" label="订单号" width="135">
                     <template slot-scope="scope">
-                      <span class="order-no link-text" @click="goJdOrder">{{ scope.row.order_no }}</span>
+                      <span class="order-no link-text" @click="goJdOrder(scope.row.order_no)">{{ scope.row.order_no }}</span>
                     </template>
                   </el-table-column>
                   <el-table-column prop="buyer_account" label="买家账号" width="120">
@@ -168,6 +169,14 @@
             </template>
           </el-table-column>
 
+          <el-table-column type="index" label="#" width="45" align="center" />
+
+          <el-table-column label="最近下单时间" width="140">
+            <template slot-scope="scope">
+              {{ formatFullTime(scope.row.orders[0] && scope.row.orders[0].order_time) }}
+            </template>
+          </el-table-column>
+
           <el-table-column label="风险对象" min-width="220">
             <template slot-scope="scope">
               <i :class="scope.row.groupType === 'account' ? 'el-icon-user' : 'el-icon-location-outline'" class="group-icon"></i>
@@ -177,14 +186,9 @@
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column label="最近下单时间" width="140">
-            <template slot-scope="scope">
-              {{ formatFullTime(scope.row.orders[0] && scope.row.orders[0].order_time) }}
-            </template>
-          </el-table-column>
           <el-table-column label="最新订单号" width="140">
             <template slot-scope="scope">
-              <span class="order-no link-text" @click="goJdOrder">{{ scope.row.orders[0] && scope.row.orders[0].order_no }}</span>
+              <span class="order-no link-text" @click="goJdOrder(scope.row.orders[0] && scope.row.orders[0].order_no)">{{ scope.row.orders[0] && scope.row.orders[0].order_no }}</span>
             </template>
           </el-table-column>
           <el-table-column label="风险等级" width="100" align="center">
@@ -380,9 +384,11 @@ export default {
       return map[level] || 'el-icon-info'
     },
 
-    // 跳转到京东订单列表
-    goJdOrder() {
-      window.open(APP_CONFIG.JD_ORDER_LIST_URL, '_blank')
+    // 跳转到京东订单详情
+    goJdOrder(orderNo) {
+      if (orderNo) {
+        window.open(APP_CONFIG.JD_ORDER_DETAIL_URL + orderNo, '_blank')
+      }
     },
     // 跳转到全部举报搜索
     goSearch(keyword) {

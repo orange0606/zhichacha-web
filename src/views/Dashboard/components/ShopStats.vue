@@ -119,8 +119,23 @@ export default {
 }
 
 .shop-list {
-  max-height: 360px;
+  max-height: 300px;
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 3px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #c0c4cc;
+    border-radius: 3px;
+    &:hover {
+      background: #909399;
+    }
+  }
 }
 
 .shop-item {
