@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <el-container class="layout-container">
     <!-- 侧边栏 -->
     <el-aside width="220px" class="sidebar">
@@ -40,6 +40,10 @@
         <el-menu-item index="/extension/manage">
           <i class="el-icon-upload2"></i>
           <span slot="title">插件管理</span>
+        </el-menu-item>
+        <el-menu-item v-if="isAdmin" index="/userManage">
+          <i class="el-icon-user"></i>
+          <span slot="title">用户管理</span>
         </el-menu-item>
       </el-menu>
     </el-aside>
@@ -130,6 +134,7 @@ export default {
       }
     }
     return {
+      isAdmin: localStorage.getItem('isAdmin') === '1',
       username: '',
       usernameDialog: false,
       usernameLoading: false,

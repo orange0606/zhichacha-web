@@ -1,4 +1,4 @@
-import Vue from 'vue'
+﻿import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
@@ -61,6 +61,11 @@ const routes = [
         path: 'extension/manage',
         name: 'ExtensionManage',
         component: () => import('../views/ExtensionManage.vue')
+      },
+      {
+        path: 'userManage',
+        name: 'UserManage',
+        component: () => import('../views/UserManage.vue')
       }
     ]
   }

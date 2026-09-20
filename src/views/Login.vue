@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="login-container">
     <div class="login-box">
       <div class="login-header">
@@ -36,9 +36,9 @@
             登 录
           </el-button>
         </el-form-item>
-        <div class="login-footer">
+        <!-- <div class="login-footer">
           还没有账号？<router-link to="/register">立即注册</router-link>
-        </div>
+        </div> -->
       </el-form>
     </div>
   </div>
@@ -75,6 +75,7 @@ export default {
           localStorage.setItem('token', res.data.token)
           localStorage.setItem('userId', res.data.userId)
           localStorage.setItem('username', res.data.username)
+          localStorage.setItem('isAdmin', res.data.isAdmin ? '1' : '0')
           this.$message.success('登录成功')
           this.$router.push('/home')
         } catch (e) {
