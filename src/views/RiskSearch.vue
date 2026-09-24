@@ -120,7 +120,11 @@
                     <el-table-column prop="buyer_name" label="收货人" width="80" />
                     <el-table-column prop="buyer_phone" label="电话/尾号" width="100" />
                     <el-table-column prop="buyer_address" label="收货地址" min-width="220" show-overflow-tooltip />
-                    <el-table-column prop="goods_name" label="商品名称" min-width="200" show-overflow-tooltip />
+                    <el-table-column prop="goods_name" label="商品名称" min-width="200" show-overflow-tooltip >
+                      <template slot-scope="scope">
+                        {{ scope.row.goods_name | formatGoodsName }}
+                      </template>
+                    </el-table-column>
                     <el-table-column prop="goods_count" label="数量" width="60" align="center" />
                     <el-table-column label="金额" width="80" align="right">
                       <template slot-scope="scope">
@@ -311,6 +315,16 @@ export default {
       const d = new Date(time)
       const pad = n => String(n).padStart(2, '0')
       return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds())
+    },
+    formatGoodsName(name) {
+      if (!name) return '-';
+      const str = String(name).trim();
+      const maskLen = 25;
+      if (str.length >= maskLen) {
+        return '*'.repeat(maskLen) + str.substring(maskLen);
+      } else {
+        return '*'.repeat(maskLen);
+      }
     }
   },
   watch: {
