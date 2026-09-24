@@ -9,7 +9,7 @@
           <div class="report-top">
             <!-- <el-tag size="mini" :type="getStatusType(item.status)">{{ item.statusText }}</el-tag> -->
             <el-tag size="mini" type="danger">{{ item.disputeTypeText }}</el-tag>
-            <span v-if="item.reporterName" class="report-reporter">举报人：{{ item.reporterName }}</span>
+            <span v-if="item.reporterName" class="report-reporter">举报人：{{ item.reporterName | maskShopName }}</span>
             <span class="report-time">{{ formatTime(item.createTime) }}</span>
           </div>
           <div class="report-account">

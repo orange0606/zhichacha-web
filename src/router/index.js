@@ -42,11 +42,11 @@ const routes = [
         name: 'Order',
         component: () => import('../views/OrderList.vue')
       },
-      {
-        path: 'villainsSearch',
-        name: 'VillainsSearch',
-        component: () => import('../views/VillainsSearch.vue')
-      },
+      // {
+      //   path: 'villainsSearch',
+      //   name: 'VillainsSearch',
+      //   component: () => import('../views/VillainsSearch.vue')
+      // },
       {
         path: 'riskSearch',
         name: 'RiskSearch',

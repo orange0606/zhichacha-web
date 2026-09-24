@@ -25,10 +25,10 @@
           <i class="el-icon-document"></i>
           <span slot="title">订单查询</span>
         </el-menu-item>
-        <el-menu-item index="/villainsSearch">
+        <!-- <el-menu-item index="/villainsSearch">
           <i class="el-icon-warning-outline"></i>
           <span slot="title">搜索恶人</span>
-        </el-menu-item>
+        </el-menu-item> -->
         <el-menu-item index="/riskSearch">
           <i class="el-icon-warning-outline"></i>
           <span slot="title">风险检测</span>

@@ -28,7 +28,7 @@
         <el-table-column prop="id" label="ID" width="60" align="center" />
         <el-table-column prop="username" label="用户名" min-width="140">
           <template slot-scope="scope">
-            <span style="font-weight: 500;">{{ scope.row.username }}</span>
+            <span style="font-weight: 500;">{{ scope.row.username | maskShopName }}</span>
           </template>
         </el-table-column>
         <el-table-column label="角色" width="80" align="center">

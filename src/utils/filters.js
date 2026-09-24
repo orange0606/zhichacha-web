@@ -1,13 +1,15 @@
 /**
- * 店铺名称脱敏：第二个字替换为 *
- * 如 "景澄玩具专营店" → "景*玩具专营店"
+ * 店铺名称脱敏：第二三个字替换为 **
+ * 如 "景成玩具专营店" → "景**具专营店"
  */
 export function maskShopName(name) {
-  if (!name) return ''
-  const str = String(name)
-  if (str.length <= 1) return str
-  return str[0] + '*' + str.slice(2)
+  if (!name) return '-'
+  const len = name.length
+  if (len === 1) return name
+  if (len === 2) return name[0] + '*'
+  return name[0] + '**' + name.substring(3)
 }
+
 
 /**
  * 店铺ID脱敏：保留前4位和后2位，中间用***

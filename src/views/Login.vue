@@ -77,7 +77,7 @@ export default {
           localStorage.setItem('username', res.data.username)
           localStorage.setItem('isAdmin', res.data.isAdmin ? '1' : '0')
           this.$message.success('登录成功')
-          this.$router.push('/home')
+          this.$router.push('/dashboard')
         } catch (e) {
           console.error(e)
         } finally {

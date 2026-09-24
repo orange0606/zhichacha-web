@@ -109,52 +109,71 @@
                   </div>
                   <el-table :data="props.row.orders" size="small" border style="width: calc(100% - 40px); margin: 0 20px">
                     <el-table-column type="index" label="#" width="50" align="center" />
-                    <el-table-column label="下单时间" width="150">
+                    <el-table-column label="下单时间" width="135">
                       <template slot-scope="scope">{{ scope.row.order_time | formatTime }}</template>
                     </el-table-column>
-                    <el-table-column prop="order_no" label="订单号" width="140" />
+                    <el-table-column label="订单号" width="135">
+                      <template slot-scope="scope">
+                        <span class="link-text" @click="goJdOrder(scope.row.order_no)">
+                          {{ scope.row.order_no }}
+                        </span>
+                      </template>
+                    </el-table-column>
                     <el-table-column prop="buyer_account" label="买家账号" width="130" />
                     <el-table-column label="所属店铺" width="140">
-                      <template slot-scope="scope">{{ maskShopNameText(scope.row.shop_name) }}</template>
+                      <template slot-scope="scope">{{ scope.row.shop_name | maskShopName }}</template>
                     </el-table-column>
-                    <el-table-column prop="buyer_name" label="收货人" width="80" />
-                    <el-table-column prop="buyer_phone" label="电话/尾号" width="100" />
+                    <el-table-column prop="goods_count" label="数量" width="60" align="center" />
+                    <el-table-column label="金额" width="70" align="right">
+                      <template slot-scope="scope">
+                        <span class="amount-text">￥{{ scope.row.pay_amount }}</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="buyer_name" label="收货人" width="75" />
+                    <el-table-column prop="buyer_phone" label="电话/尾号" width="90" />
                     <el-table-column prop="buyer_address" label="收货地址" min-width="220" show-overflow-tooltip />
                     <el-table-column prop="goods_name" label="商品名称" min-width="200" show-overflow-tooltip >
                       <template slot-scope="scope">
                         {{ scope.row.goods_name | formatGoodsName }}
                       </template>
                     </el-table-column>
-                    <el-table-column prop="goods_count" label="数量" width="60" align="center" />
-                    <el-table-column label="金额" width="80" align="right">
-                      <template slot-scope="scope">
-                        <span class="amount-text">￥{{ scope.row.pay_amount }}</span>
-                      </template>
-                    </el-table-column>
+
                   </el-table>
                 </template>
               </el-table-column>
               <el-table-column type="index" label="#" width="50" align="center" />
-              <el-table-column label="最近下单时间" width="150">
+              <el-table-column label="最近下单时间" width="135">
                 <template slot-scope="scope">
                   {{ scope.row.orders[0] && scope.row.orders[0].order_time | formatTime }}
                 </template>
               </el-table-column>
-              <el-table-column label="风险对象" min-width="240">
+              <el-table-column label="风险对象" width="200">
                 <template slot-scope="scope">
                   <i class="el-icon-user group-icon"></i>
-                  <span class="link-text" @click="goSearch(scope.row.groupName)">{{ scope.row.groupName }}</span>
+                  <!-- <span class="link-text" @click="goSearch(scope.row.groupName)">{{ scope.row.groupName }}</span> -->
+                  <span>{{ scope.row.groupName }}</span>
                   <el-tag size="mini" type="primary" effect="plain" style="margin-left: 8px">账号</el-tag>
                 </template>
               </el-table-column>
-              <el-table-column label="最新订单号" width="150">
+              <el-table-column prop="avgPrice" label="客单价" width="70" align="center" />
+              <el-table-column label="涉及店铺" width="70" align="center">
+                <template slot-scope="scope">
+                  <el-tag size="mini" :type="getRiskTagType(scope.row.riskLevel)">
+                    {{ scope.row.crossShopCount }} 家
+                  </el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column prop="totalOrderCount" label="关联订单" width="70" align="center" />
+              <el-table-column prop="reportCount" label="举报次数" width="70" align="center" />
+              <!-- <el-table-column label="最新订单号" width="135">
                 <template slot-scope="scope">
                   <span class="link-text" @click="goJdOrder(scope.row.orders[0] && scope.row.orders[0].order_no)">
                     {{ scope.row.orders[0] && scope.row.orders[0].order_no }}
                   </span>
                 </template>
-              </el-table-column>
-              <el-table-column label="风险等级" width="110" align="center">
+              </el-table-column> -->
+              
+              <el-table-column label="风险等级" width="100" align="center">
                 <template slot-scope="scope">
                   <el-tag size="small" :type="getRiskTagType(scope.row.riskLevel)" effect="dark">
                     <i :class="getRiskIcon(scope.row.riskLevel)"></i>
@@ -162,6 +181,7 @@
                   </el-tag>
                 </template>
               </el-table-column>
+
               <el-table-column label="风险标记" min-width="300">
                 <template slot-scope="scope">
                   <el-tag
@@ -174,15 +194,7 @@
                   >{{ tag }}</el-tag>
                 </template>
               </el-table-column>
-              <el-table-column label="涉及店铺" width="100" align="center">
-                <template slot-scope="scope">
-                  <el-tag size="mini" :type="getRiskTagType(scope.row.riskLevel)">
-                    {{ scope.row.crossShopCount }} 家
-                  </el-tag>
-                </template>
-              </el-table-column>
-              <el-table-column prop="totalOrderCount" label="关联订单" width="100" align="center" />
-              <el-table-column prop="reportCount" label="被举报次数" width="100" align="center" />
+
             </el-table>
           </el-tab-pane>
 
@@ -205,46 +217,68 @@
                   </div>
                   <el-table :data="props.row.orders" size="small" border style="width: calc(100% - 40px); margin: 0 20px">
                     <el-table-column type="index" label="#" width="50" align="center" />
-                    <el-table-column label="下单时间" width="150">
+                    <el-table-column label="下单时间" width="135">
                       <template slot-scope="scope">{{ scope.row.order_time | formatTime }}</template>
                     </el-table-column>
-                    <el-table-column prop="order_no" label="订单号" width="140" />
+                    <el-table-column label="订单号" width="135">
+                      <template slot-scope="scope">
+                        <span class="link-text" @click="goJdOrder(scope.row.order_no)">
+                          {{ scope.row.order_no }}
+                        </span>
+                      </template>
+                    </el-table-column>
                     <el-table-column prop="buyer_account" label="买家账号" width="130" />
                     <el-table-column label="所属店铺" width="140">
-                      <template slot-scope="scope">{{ maskShopNameText(scope.row.shop_name) }}</template>
+                      <template slot-scope="scope">{{ scope.row.shop_name | maskShopName }}</template>
                     </el-table-column>
-                    <el-table-column prop="buyer_name" label="收货人" width="80" />
-                    <el-table-column prop="buyer_phone" label="电话/尾号" width="100" />
-                    <el-table-column prop="buyer_address" label="收货地址" min-width="220" show-overflow-tooltip />
-                    <el-table-column prop="goods_name" label="商品名称" min-width="200" show-overflow-tooltip />
-                    <el-table-column prop="goods_count" label="数量" width="60" align="center" />
-                    <el-table-column label="金额" width="80" align="right">
+                    <el-table-column prop="goods_count" label="数量" width="55" align="center" />
+                    <el-table-column label="金额" width="70" align="right">
                       <template slot-scope="scope">
                         <span class="amount-text">￥{{ scope.row.pay_amount }}</span>
                       </template>
                     </el-table-column>
+                    <el-table-column prop="buyer_name" label="收货人" width="75" />
+                    <el-table-column prop="buyer_phone" label="电话/尾号" width="90" />
+                    <el-table-column prop="buyer_address" label="收货地址" min-width="220" show-overflow-tooltip />
+                    <el-table-column prop="goods_name" label="商品名称" min-width="200" show-overflow-tooltip >
+                      <template slot-scope="scope">
+                        {{ scope.row.goods_name | formatGoodsName }}
+                      </template>
+                    </el-table-column>
+
                   </el-table>
                 </template>
               </el-table-column>
               <el-table-column type="index" label="#" width="50" align="center" />
-              <el-table-column label="最近下单时间" width="150">
+              <el-table-column label="最近下单时间" width="135">
                 <template slot-scope="scope">
                   {{ scope.row.orders[0] && scope.row.orders[0].order_time | formatTime }}
                 </template>
               </el-table-column>
-              <el-table-column label="风险对象" min-width="240">
+              <el-table-column label="风险对象" min-width="250">
                 <template slot-scope="scope">
                   <i class="el-icon-location-outline group-icon"></i>
                   <span>{{ scope.row.groupName }}</span>
                   <el-tag size="mini" type="success" effect="plain" style="margin-left: 8px">地址</el-tag>
                 </template>
               </el-table-column>
-              <el-table-column label="最新订单号" width="150">
+              <el-table-column prop="avgPrice" label="客单价" width="70" align="center" />
+              <el-table-column label="涉及店铺" width="70" align="center">
+                <template slot-scope="scope">
+                  <el-tag size="mini" :type="getRiskTagType(scope.row.riskLevel)">
+                    {{ scope.row.crossShopCount }} 家
+                  </el-tag>
+                </template>
+              </el-table-column>
+              <!-- <el-table-column label="最新订单号" width="150">
                 <template slot-scope="scope">
                   {{ scope.row.orders[0] && scope.row.orders[0].order_no }}
                 </template>
-              </el-table-column>
-              <el-table-column label="风险等级" width="110" align="center">
+              </el-table-column> -->
+              
+              <el-table-column prop="totalOrderCount" label="关联订单" width="70" align="center" />
+              <el-table-column prop="reportCount" label="举报次数" width="70" align="center" />
+              <el-table-column label="风险等级" width="100" align="center">
                 <template slot-scope="scope">
                   <el-tag size="small" :type="getRiskTagType(scope.row.riskLevel)" effect="dark">
                     <i :class="getRiskIcon(scope.row.riskLevel)"></i>
@@ -264,15 +298,7 @@
                   >{{ tag }}</el-tag>
                 </template>
               </el-table-column>
-              <el-table-column label="涉及店铺" width="100" align="center">
-                <template slot-scope="scope">
-                  <el-tag size="mini" :type="getRiskTagType(scope.row.riskLevel)">
-                    {{ scope.row.crossShopCount }} 家
-                  </el-tag>
-                </template>
-              </el-table-column>
-              <el-table-column prop="totalOrderCount" label="关联订单" width="100" align="center" />
-              <el-table-column prop="reportCount" label="被举报次数" width="100" align="center" />
+              
             </el-table>
           </el-tab-pane>
         </el-tabs>
@@ -373,9 +399,26 @@ export default {
           type: 'account'
         })
         const data = res.data || {}
-        this.accountGroups = (data.groups || []).map(g => {
-          return Object.assign({}, g, { rowKey: g.groupType + '_' + g.groupKey })
+        const groups = data.groups || [];
+        // console.log(groups)
+        this.accountGroups = groups.map(g => {
+          // 计算当前分组orders的平均单价
+          let totalMoney = 0;
+          let totalNum = 0;
+          if (g.orders && g.orders.length > 0) {
+            g.orders.forEach(item => {
+              totalMoney += Number(item.pay_amount);
+              totalNum += Number(item.goods_count);
+            })
+          }
+          const avgPrice = totalNum > 0 ? (totalMoney / totalNum).toFixed(2) : '0.00';
+
+          return Object.assign({}, g, {
+            rowKey: g.groupType + '_' + g.groupKey,
+            avgPrice // 新增平均单价字段
+          })
         })
+
         this.riskInfo = {
           highRiskCount: data.highRiskCount || 0,
           userShopCount: data.userShopCount || 0,
@@ -383,9 +426,9 @@ export default {
           totalOrder: data.totalOrder || 0,
           shopCount: data.shopCount || 0
         }
-        this.expandRowKeys = this.accountGroups
-          .filter(g => g.riskLevel === 'high')
-          .map(g => g.rowKey)
+        // this.expandRowKeys = this.accountGroups
+        //   .filter(g => g.riskLevel === 'high')
+        //   .map(g => g.rowKey)
       } catch (e) {
         console.error(e)
         this.$message.error(e.response?.data?.msg || '账号检测失败')
@@ -403,8 +446,24 @@ export default {
           type: 'address'
         })
         const data = res.data || {}
-        this.addressGroups = (data.groups || []).map(g => {
-          return Object.assign({}, g, { rowKey: g.groupType + '_' + g.groupKey })
+        const groups = data.groups || [];
+        // console.log(groups)
+        this.addressGroups = groups.map(g => {
+          // 计算当前分组orders的平均单价
+          let totalMoney = 0;
+          let totalNum = 0;
+          if (g.orders && g.orders.length > 0) {
+            g.orders.forEach(item => {
+              totalMoney += Number(item.pay_amount);
+              totalNum += Number(item.goods_count);
+            })
+          }
+          const avgPrice = totalNum > 0 ? (totalMoney / totalNum).toFixed(2) : '0.00';
+
+          return Object.assign({}, g, {
+            rowKey: g.groupType + '_' + g.groupKey,
+            avgPrice // 新增平均单价字段
+          })
         })
       } catch (e) {
         console.error(e)
@@ -463,7 +522,7 @@ export default {
 
     goJdOrder(orderNo) {
       if (!orderNo) return
-      window.open('https://order.jd.com/center/list.action?search=' + orderNo, '_blank')
+      window.open('https://shop.jd.com/jdm/trade/orders/order-details?orderId=' + orderNo, '_blank')
     }
   }
 }

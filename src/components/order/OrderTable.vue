@@ -37,7 +37,7 @@
           {{ formatTime(scope.row.order_time) }}
         </template>
       </el-table-column>
-      <el-table-column prop="order_no" label="订单号" width="125">
+      <el-table-column prop="order_no" label="订单号" width="135">
         <template slot-scope="scope">
           <span class="order-no link-text" @click="goJdOrder(scope.row.order_no)">{{ scope.row.order_no }}</span>
         </template>
@@ -54,8 +54,8 @@
           <span class="amount">¥{{ Number(scope.row.pay_amount).toFixed(2) }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="buyer_account" label="下单账号" width="130" />
-      <el-table-column prop="buyer_name" label="客户姓名" width="90" />
+      <el-table-column prop="buyer_account" label="下单账号" width="140" />
+      <el-table-column prop="buyer_name" label="客户姓名" width="70" />
       <el-table-column prop="buyer_phone" label="联系电话" width="90">
         <template slot-scope="scope">
           {{ maskPhone(scope.row.buyer_phone) }}

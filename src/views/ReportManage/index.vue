@@ -160,7 +160,7 @@
                   <div class="card-title-wrap">
                     <el-tag size="mini" :type="disputeTypeTagType(item.dispute_type)" effect="light">{{ item.dispute_type_text }}</el-tag>
                     <span class="card-id">举报编号 #{{ item.id }}</span>
-                    <span class="reporter">举报人：{{ item.username }}</span>
+                    <span class="reporter">举报人：{{ item.username | maskShopName }}</span>
                   </div>
                   <div class="card-header-right">
                     <span 
